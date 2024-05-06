@@ -1,13 +1,12 @@
 import express from "express";
 import mongoose from "mongoose";
 import { MONGO_URL } from "../.env";
+import userRouter from './routes/user.route.js'
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get("/", (req, res) => {
-  res.send("Hello, this is a demo message!");
-});
+app.use('/api',userRouter)
 
 mongoose.connect(MONGO_URL)
   .then(() => {
