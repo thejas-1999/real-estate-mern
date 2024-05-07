@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Oauth from "../components/Oauth";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -71,7 +72,7 @@ const SignUp = () => {
           onChange={handleChange}
         />
         <input
-          type="password" // Changed comment placement
+          type="password" 
           placeholder="password"
           className="border p-3 rounded-lg"
           id="password"
@@ -84,6 +85,7 @@ const SignUp = () => {
         >
           {loading ? "Loading..." : "Sign Up"}
         </button>
+        <Oauth/>
       </form>
       <div className="flex gap-2 mt-5">
         <p>Have an account?</p>

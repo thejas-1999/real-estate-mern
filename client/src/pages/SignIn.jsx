@@ -6,6 +6,7 @@ import {
   signInSuccess,
   signInFailure,
 } from "../redux/user/userSlice";
+import Oauth from "../components/Oauth";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ const SignIn = () => {
       dispatch(signInFailure("An error occurred, please try again."));
     }
   };
-
+ 
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl text-center font-semibold my-7">Sign-In</h1>
@@ -76,6 +77,7 @@ const SignIn = () => {
         >
           {loading ? "Loading..." : "Sign In"}
         </button>
+        <Oauth/>
       </form>
       <div className="flex gap-2 mt-5">
         <p>Don't have an account?</p>
@@ -85,6 +87,7 @@ const SignIn = () => {
       </div>
       {error && <p className="text-red-500">{error}</p>}
     </div>
+    
   );
 };
 
