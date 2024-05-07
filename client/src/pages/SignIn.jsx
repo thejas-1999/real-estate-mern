@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/userSlice";
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { loading, error } = useSelector((state) => state.user);
 
   const handleChange = (e) => {
     setFormData({
@@ -19,7 +25,7 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    dispatch(signInStart());
     try {
       const res = await fetch("/api/auth/signin", {
         method: "POST",
@@ -30,19 +36,17 @@ const SignIn = () => {
       });
 
       const data = await res.json();
-      
+
       if (res.ok) {
-        // Successful sign-in, redirect to home page
+        dispatch(signInSuccess(formData.email));
         navigate("/");
       } else {
-        // Unsuccessful sign-in, display error
-        setError(data.message);
+        dispatch(signInFailure(data.message));
       }
     } catch (error) {
       console.error(error);
-      setError("An error occurred, please try again.");
+      dispatch(signInFailure("An error occurred, please try again."));
     }
-    setLoading(false);
   };
 
   return (
@@ -85,4 +89,3 @@ const SignIn = () => {
 };
 
 export default SignIn;
-  
