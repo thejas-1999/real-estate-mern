@@ -26,7 +26,8 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(signInStart());
+    dispatch(signInStart()); // Dispatch start action
+
     try {
       const res = await fetch("/api/auth/signin", {
         method: "POST",
@@ -39,17 +40,17 @@ const SignIn = () => {
       const data = await res.json();
 
       if (res.ok) {
-        dispatch(signInSuccess(formData.email));
+        dispatch(signInSuccess(formData.email)); // Dispatch success action
         navigate("/");
       } else {
-        dispatch(signInFailure(data.message));
+        dispatch(signInFailure(data.message)); // Dispatch failure action
       }
     } catch (error) {
       console.error(error);
       dispatch(signInFailure("An error occurred, please try again."));
     }
   };
- 
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl text-center font-semibold my-7">Sign-In</h1>
@@ -77,17 +78,16 @@ const SignIn = () => {
         >
           {loading ? "Loading..." : "Sign In"}
         </button>
-        <Oauth/>
+        <Oauth />
+        <div className="flex gap-2 mt-5">
+          <p>Don't have an account?</p>
+          <Link to="/sign-up" className="text-blue-700">
+            Sign Up
+          </Link>
+        </div>
+        {error && <p className="text-red-500">{error}</p>}
       </form>
-      <div className="flex gap-2 mt-5">
-        <p>Don't have an account?</p>
-        <Link to="/sign-up" className="text-blue-700">
-          Sign Up
-        </Link>
-      </div>
-      {error && <p className="text-red-500">{error}</p>}
     </div>
-    
   );
 };
 
